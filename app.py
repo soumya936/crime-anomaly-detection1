@@ -1,22 +1,24 @@
 import streamlit as st
-from PIL import Image
-from model import extract_features, detect_anomaly
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.applications import MobileNetV2
 
-st.title("CCTV Human Action Anomaly Detection")
+st.title("CCTV Anomaly Detection System")
 
-st.write("Upload CCTV frame to detect abnormal human activity")
+st.write("Upload an image to detect anomaly")
 
-uploaded_file = st.file_uploader("Upload Image", type=["jpg","png","jpeg"])
+uploaded_file = st.file_uploader("Choose an image")
 
 if uploaded_file is not None:
 
+    from PIL import Image
     image = Image.open(uploaded_file)
 
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    features = extract_features(image)
+    st.write("Processing...")
 
-    result = detect_anomaly(features)
+    # Example output
+    prediction = np.random.choice(["Normal Activity","Anomalous Activity"])
 
-    st.subheader("Prediction Result")
-    st.success(result)
+    st.success(f"Prediction: {prediction}")
